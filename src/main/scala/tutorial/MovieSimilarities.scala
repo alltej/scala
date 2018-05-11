@@ -20,8 +20,13 @@ object MovieSimilarities {
 
     // Create a Map of Ints to Strings, and populate it from u.item.
     var movieNames:Map[Int, String] = Map()
-    
-     val lines = Source.fromFile("../ml-100k/u.item").getLines()
+
+    //val lines = Source.fromFile(getClass.getResource("/ml-100k/u.item").toURI).getLines()
+    //val s1 = Source.fromFile("c:/zudemy/scala-demo/src/main/resources/ml-100k/u.item").mkString; //returns the file data as String
+    //println(s1)
+    val lines = Source.fromFile(getClass.getResource("/ml-100k/u.item").toURI).getLines().toList
+    println("Check # of Movies")
+    //println(lines.length)
      for (line <- lines) {
        var fields = line.split('|')
        if (fields.length > 1) {
@@ -97,8 +102,12 @@ object MovieSimilarities {
     
     println("\nLoading movie names...")
     val nameDict = loadMovieNames()
-    
-    val data = sc.textFile("../ml-100k/u.data")
+
+    println("\nCheck title of movie ID 2")
+    val title = nameDict.get(1)
+    println(title)
+
+    val data = sc.textFile(getClass.getResource("/ml-100k/u.data").toString)
 
     // Map ratings to key / value pairs: user ID => movie ID, rating
     val ratings = data.map(l => l.split("\t")).map(l => (l(0).toInt, (l(1).toInt, l(2).toDouble)))
@@ -148,7 +157,7 @@ object MovieSimilarities {
         
       // Sort by quality score.
       val results = filteredResults.map( x => (x._2, x._1)).sortByKey(false).take(10)
-      
+      println("movieID:"+ movieID)
       println("\nTop 10 similar movies for " + nameDict(movieID))
       for (result <- results) {
         val sim = result._1
