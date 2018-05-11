@@ -1,0 +1,3 @@
+/target
+/project/target/config-classes/*.class
+/project/target/config-classes
