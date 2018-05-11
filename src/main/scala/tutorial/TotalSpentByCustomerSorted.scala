@@ -1,8 +1,7 @@
 package tutorial
 
-import org.apache.spark._
-import org.apache.spark.SparkContext._
 import org.apache.log4j._
+import org.apache.spark._
 
 /** Compute the total amount spent per customer in some fake e-commerce data. */
 object TotalSpentByCustomerSorted {
@@ -20,9 +19,10 @@ object TotalSpentByCustomerSorted {
     Logger.getLogger("org").setLevel(Level.ERROR)
     
      // Create a SparkContext using every core of the local machine
-    val sc = new SparkContext("local[*]", "TotalSpentByCustomerSorted")   
-    
-    val input = sc.textFile("../customer-orders.csv")
+    val sc = new SparkContext("local[*]", "TotalSpentByCustomerSorted")
+
+    val input = sc.textFile(getClass.getResource("/customer-orders.csv").toString)
+    //val input = sc.textFile("../customer-orders.csv")
 
     val mappedInput = input.map(extractCustomerPricePairs)
     

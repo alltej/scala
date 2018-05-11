@@ -16,7 +16,8 @@ object PopularMovies {
     val sc = new SparkContext("local[*]", "PopularMovies")   
     
     // Read in each rating line
-    val lines = sc.textFile("../ml-100k/u.data")
+    //val data = sc.textFile(getClass.getResource("/ml-100k/u.data").toString)
+    val lines = sc.textFile(getClass.getResource("/ml-100k/u.data").toString)
     
     // Map to (movieID, 1) tuples
     val movies = lines.map(x => (x.split("\t")(1).toInt, 1))
