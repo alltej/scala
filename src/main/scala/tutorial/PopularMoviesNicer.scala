@@ -20,8 +20,10 @@ object PopularMoviesNicer {
 
     // Create a Map of Ints to Strings, and populate it from u.item.
     var movieNames:Map[Int, String] = Map()
-    
-     val lines = Source.fromFile("../ml-100k/u.item").getLines()
+
+     //val lines = Source.fromFile(getClass.getResource("/ml-100k/u.item").toURI).getLines()
+     //val lines = Source.fromFile("../ml-100k/u.item").getLines()
+     val lines = Source.fromFile(getClass.getResource("/ml-100k/u.item").toURI).getLines()
      for (line <- lines) {
        var fields = line.split('|')
        if (fields.length > 1) {
@@ -45,8 +47,10 @@ object PopularMoviesNicer {
     var nameDict = sc.broadcast(loadMovieNames)
     
     // Read in each rating line
-    val lines = sc.textFile("../ml-100k/u.data")
-    
+    //    //    val lines = spark.sparkContext.textFile(getClass.getResource("/ml-100k/u.data").toString).map(x => Movie(x.split("\t")(1).toInt))
+    val lines = sc.textFile(getClass.getResource("/ml-100k/u.data").toString)
+    //val lines = sc.textFile("../ml-100k/u.data")
+
     // Map to (movieID, 1) tuples
     val movies = lines.map(x => (x.split("\t")(1).toInt, 1))
     
